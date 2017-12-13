@@ -1,0 +1,9 @@
+dist
+
+node_modules
+
+*.css
+*.map
+
+# Debug log from npm
+npm-debug.log
