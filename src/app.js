@@ -4,6 +4,8 @@ import path from 'path'
 import favicon from 'serve-favicon'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
+import session from 'express-session'
+import flash from 'connect-flash'
 import bodyParser from 'body-parser'
 import sassMiddleware from 'node-sass-middleware'
 
@@ -26,6 +28,12 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(session({
+  secret: conf.get('sessionSecret'), // session secret
+  resave: true,
+  saveUninitialized: true
+}))
+app.use(flash())
 
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
@@ -47,12 +55,13 @@ app.use(async (req, res, next) => {
 })
 
 // error handler
-app.use(async (err, req, res, /* next */) => {
+app.use(async (err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message
+  err.status = err.status || 500
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
   // render the error page
-  res.status(err.status || 500)
+  res.status(err.status)
   res.render('error')
 })
