@@ -16,4 +16,11 @@ router.get('/login', asyncMiddleware(async(req, res, /* next */) =>
   })
 ))
 
+router.get('/signup', asyncMiddleware(async(req, res, /* next */) =>
+  res.render('signup', {
+    title: 'Signup',
+    message: req.flash('signupMessage')
+  })
+))
+
 export default router

@@ -6,13 +6,14 @@ block content
 
       h1
         span(class="fa fa-sign-in")
-        |  #{title}
+        |
+        | #{title}
 
       if message.length > 0
         div(class="alert alert-danger")= message
 
       // Login form
-      form(action="/login", method="post")
+      form(action="/signup", method="post")
         div(class="form-group")
           label Email
           input(type="text", class="form-control", name="email")
@@ -21,18 +22,17 @@ block content
           label Password
           input(type="password", class="form-control", name="password")
 
-        button(type="submit", class="btn btn-warning btn-lg") Login
+        button(type="submit", class="btn btn-warning btn-lg") Signup
 
       hr
 
-      p Need an account?
+      p Already have an account?
         |
         |
-        a(href="/signup") Signup
-        |
-        |
+        a(href="/login") Login
       p Or go
         |
         |
         a(href="/") home
+        |
         | .
