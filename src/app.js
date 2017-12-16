@@ -8,6 +8,7 @@ import session from 'express-session'
 import flash from 'connect-flash'
 import bodyParser from 'body-parser'
 import sassMiddleware from 'node-sass-middleware'
+import { initDb } from './db'
 
 import index from './routes/index'
 import users from './routes/users'
@@ -43,6 +44,11 @@ app.use(sassMiddleware({
 }))
 
 app.use(express.static(path.join(__dirname, 'public')))
+
+initDb().catch(error => {
+  console.error(`Database connection error: ${error.stack}`)
+  process.exit(1)
+})
 
 app.use('/', index)
 app.use('/users', users)

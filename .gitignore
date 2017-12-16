@@ -5,5 +5,7 @@ node_modules
 *.css
 *.map
 
+*.sqlite
+
 # Debug log from npm
 npm-debug.log
