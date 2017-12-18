@@ -6,7 +6,9 @@ block content
     div(class="page-header text-center")
 
       h1
-        span(class="fa fa-anchor") Profile Page
+        span(class="fa fa-anchor")
+        |
+        | Profile Page
       a(href="/logout", class="btn btn-default btn-sm") Logout
 
     div.row
@@ -15,12 +17,14 @@ block content
       div(class="col-sm-6")
         div.well
           h3
-            span(class="fa fa-user") Local
+            span(class="fa fa-user")
+            |
+            | Local
 
           if user.email
             p
               strong id
-              | #{user.id}
+              | : #{user.id}
               br
               strong email
               | : #{user.email}
@@ -36,7 +40,9 @@ block content
       div(class="col-sm-6")
         div.well
           h3(class="text-primary")
-            span(class="fa fa-facebook") Facebook
+            span(class="fa fa-facebook")
+            |
+            | Facebook
 
           // check if the user has this token (is the user authenticated with this social account)
           if user.facebook_token
@@ -64,7 +70,9 @@ block content
       div(class="col-sm-6")
         div.well
           h3(class="text-info")
-            span(class="fa fa-twitter") Twitter
+            span(class="fa fa-twitter")
+            |
+            | Twitter
 
           if user.twitter_token
             p
@@ -88,7 +96,9 @@ block content
       div(class="col-sm-6")
         div.well
           h3(class="text-danger")
-            span(class="fa fa-google-plus") Google+
+            span(class="fa fa-google-plus")
+            |
+            | Google+
 
           if user.google_token
             p
