@@ -17,16 +17,16 @@ block content
           h3
             span(class="fa fa-user") Local
 
-          if user.local.email
+          if user.email
             p
               strong id
-              | #{user._id}
+              | #{user.id}
               br
               strong email
-              | : #{user.local.email}
+              | : #{user.email}
               br
               strong password
-              | : #{user.local.password}
+              | : #{user.password}
 
             a(href="/unlink/local", class="btn btn-default") Unlink
           else
@@ -39,19 +39,19 @@ block content
             span(class="fa fa-facebook") Facebook
 
           // check if the user has this token (is the user authenticated with this social account)
-          if user.facebook.token
+          if user.facebook_token
             p
               strong id
-              | : div user.facebook.id}
+              | : div #{user.facebook_id}
               br
               strong token
-              | : div user.facebook.token}
+              | : div #{user.facebook_token}
               br
               strong email
-              | : div user.facebook.email}
+              | : div #{user.facebook_email}
               br
               strong name
-              | : div user.facebook.name}
+              | : div #{user.facebook_name}
               br
 
             a(href="/unlink/facebook", class="btn btn-primary") Unlink
@@ -66,19 +66,19 @@ block content
           h3(class="text-info")
             span(class="fa fa-twitter") Twitter
 
-          if user.twitter.token
+          if user.twitter_token
             p
               strong id
-              | : div user.twitter.id}
+              | : div #{user.twitter_id}
               br
               strong token
-              | : #{user.twitter.token}
+              | : #{user.twitter_token}
               br
               strong display name
-              | : #{user.twitter.displayName}
+              | : #{user.twitter_displayName}
               br
               strong username
-              | : #{user.twitter.username}
+              | : #{user.twitter_username}
 
             a(href="/unlink/twitter", class="btn btn-info") Unlink
           else
@@ -90,18 +90,18 @@ block content
           h3(class="text-danger")
             span(class="fa fa-google-plus") Google+
 
-          if user.google.token
+          if user.google_token
             p
               strong id
-              | : #{user.google.id}
+              | : #{user.google_id}
               br
-              strong token #{user.google.token}
+              strong token #{user.google_token}
               br
               strong email
-              | : #{user.google.email}
+              | : #{user.google_email}
               br
               strong name
-              |: #{user.google.name}
+              |: #{user.google_name}
 
             a(href="/unlink/google", class="btn btn-danger") Unlink
           else

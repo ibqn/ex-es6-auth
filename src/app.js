@@ -4,6 +4,8 @@ import path from 'path'
 import favicon from 'serve-favicon'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
+import passport from 'passport'
+import { initLocalStrategy } from './strategy'
 import session from 'express-session'
 import flash from 'connect-flash'
 import bodyParser from 'body-parser'
@@ -44,6 +46,10 @@ app.use(sassMiddleware({
 }))
 
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.use(passport.initialize())
+app.use(passport.session())
+initLocalStrategy(passport)
 
 initDb().catch(error => {
   console.error(`Database connection error: ${error.stack}`)

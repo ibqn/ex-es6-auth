@@ -2,7 +2,7 @@ import Sequelize from 'sequelize'
 import { sequelize as db } from '../db'
 
 
-export const Hero = db.define('user', {
+export const User = db.define('user', {
   id: {
     type: Sequelize.UUID,
     primaryKey: true,
@@ -10,7 +10,12 @@ export const Hero = db.define('user', {
     unique: true,
     defaultValue: Sequelize.UUIDV4
   },
-  name: {
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    //defaultValue: null,
+  },
+  password: {
     type: Sequelize.STRING,
     allowNull: false,
     //defaultValue: null,
@@ -28,12 +33,12 @@ export const Hero = db.define('user', {
   tableName: 'user'
 })
 
-async function syncHero() {
-  await Hero.sync()
+async function syncUser() {
+  await User.sync()
   console.log('table is in sync')
 }
 
-syncHero().catch(error => {
+syncUser().catch(error => {
   console.error(`Failed to create user table: ${error.stack}`)
   process.exit(1)
 })
