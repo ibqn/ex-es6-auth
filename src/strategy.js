@@ -1,4 +1,5 @@
 //import passport from 'passport'
+import crypto from 'crypto'
 import LocalStrategy from 'passport-local'
 import { User } from './models/user'
 
@@ -88,7 +89,9 @@ export const initLocalStrategy = (passport) => {
       } else {
         // if there is no user with that email
         // create the user
-        user = await User.create({ email, password })
+        user = await User.build({ email })
+        await user.setPassword(password)
+        await user.save()
         return done(null, user)
       }
     } catch(error) {

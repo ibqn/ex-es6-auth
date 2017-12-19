@@ -10,7 +10,15 @@ router.get('/', asyncMiddleware(async(req, res, /* next */) =>
   res.render('index', { title: 'Express' })
 ))
 
-router.get('/profile', asyncMiddleware(async(req, res, /* next */) =>
+// route middleware to ensure user is logged in
+const ensureAuth = (req, res, next) => {
+  if (req.isAuthenticated())
+    return next()
+
+  res.redirect('/')
+}
+
+router.get('/profile', ensureAuth, asyncMiddleware(async(req, res, /* next */) =>
   res.render('profile', { title: 'Profile', user: req.user })
 ))
 
