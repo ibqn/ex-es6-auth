@@ -72,7 +72,7 @@ User.prototype.validPassword = async function (password) {
 
 async function syncUser() {
   await User.sync()
-  console.log('table is in sync')
+  console.log('table user is in sync')
 }
 
 syncUser().catch(error => {

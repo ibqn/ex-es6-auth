@@ -1,5 +1,5 @@
 import LocalStrategy from 'passport-local'
-import { User } from './models/user'
+import { User } from '../models/user'
 
 
 export const initLocalStrategy = (passport) => {
@@ -85,8 +85,7 @@ export const initLocalStrategy = (passport) => {
           req.flash('signupMessage', 'That email is already taken.')
         )
       } else {
-        // if there is no user with that email
-        // create the user
+        // if there is no user with that email, create the user
         user = await User.build({ email })
         await user.setPassword(password)
         await user.save()
