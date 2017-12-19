@@ -3,11 +3,27 @@ import { sequelize as db } from '../db'
 import crypto from 'crypto'
 
 
-const saltLen = 32
+const keyLength = 32
 const iterations = 100000
+const digest = 'sha512'
 const generateSalt = () => {
-  const salt = crypto.randomBytes(saltLen)
+  const salt = crypto.randomBytes(keyLength)
   return salt.toString('hex')
+}
+const generateHash = (salt, password) => {
+  const executor = (resolve, reject) => {
+    const callback = (error, hash) => {
+      if (error) {
+        return reject(error)
+      }
+
+      resolve(hash.toString('hex'))
+    }
+
+    crypto.pbkdf2(password, salt, iterations, keyLength, digest, callback)
+  }
+
+  return new Promise(executor)
 }
 
 export const User = db.define('user', {
@@ -29,7 +45,7 @@ export const User = db.define('user', {
   salt: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: function () { return generateSalt() },
+    defaultValue: () => generateSalt(),
   },
   created_at: {
     type: Sequelize.DATE,
@@ -45,15 +61,13 @@ export const User = db.define('user', {
 })
 
 User.prototype.setPassword = async function (password) {
-  const hash = crypto.pbkdf2Sync(password, this.salt, iterations, saltLen, 'sha512')
-  this.password = hash.toString('hex')
+  this.password = await generateHash(this.salt, password)
 }
 
 // checking if password is valid
 User.prototype.validPassword = async function (password) {
-  const hash = crypto.pbkdf2Sync(password, this.salt, iterations, saltLen, 'sha512')
-  const password_hash = hash.toString('hex')
-  return this.password === password_hash
+  const hash = await generateHash(this.salt, password)
+  return this.password === hash
 }
 
 async function syncUser() {

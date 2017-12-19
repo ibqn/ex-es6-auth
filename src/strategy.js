@@ -37,7 +37,7 @@ export const initLocalStrategy = (passport) => {
       // we are checking to see if the user trying to login already exists
       const user = await User.findOne({
         where: { email: email },
-        attributes: [ 'id', 'email' ]
+        attributes: [ 'id', 'email', 'password', 'salt' ]
       })
       // if no user is found, return the message
       if (user === null) {
@@ -49,7 +49,7 @@ export const initLocalStrategy = (passport) => {
         )
       }
       // if the user is found but the password is wrong
-      if (!user.validPassword(password)) {
+      if (!await user.validPassword(password)) {
         // create the loginMessage and save it to session as flashdata
         return done(
           null,
