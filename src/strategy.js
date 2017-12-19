@@ -1,5 +1,3 @@
-//import passport from 'passport'
-import crypto from 'crypto'
 import LocalStrategy from 'passport-local'
 import { User } from './models/user'
 
@@ -14,7 +12,7 @@ export const initLocalStrategy = (passport) => {
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await User.findOne({
-        where: { id: id },
+        where: { id },
         attributes: [ 'id', 'email', 'password' ]
       })
       done(null, user)
@@ -36,7 +34,7 @@ export const initLocalStrategy = (passport) => {
       // find a user whose email is the same as the forms email
       // we are checking to see if the user trying to login already exists
       const user = await User.findOne({
-        where: { email: email },
+        where: { email },
         attributes: [ 'id', 'email', 'password', 'salt' ]
       })
       // if no user is found, return the message
@@ -77,7 +75,7 @@ export const initLocalStrategy = (passport) => {
       // find a user whose email is the same as the forms email
       // we are checking to see if the user trying to login already exists
       let user = await User.findOne({
-        where: { email: email },
+        where: { email },
         attributes: [ 'id', 'email' ]
       })
       if (user) {
