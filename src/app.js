@@ -11,12 +11,15 @@ import flash from 'connect-flash'
 import bodyParser from 'body-parser'
 import sassMiddleware from 'node-sass-middleware'
 import { initDb } from './db'
+import dotenv from 'dotenv'
 
 import index from './routes/index'
 import users from './routes/users'
 
 
 export const app = express()
+
+dotenv.config({ path: path.join(__dirname, 'keys.env') })
 
 export const conf = nconf.argv().env().file({
   file: path.join(__dirname, 'config.json')

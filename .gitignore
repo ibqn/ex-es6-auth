@@ -7,5 +7,7 @@ node_modules
 
 *.sqlite
 
+*.env
+
 # Debug log from npm
 npm-debug.log
