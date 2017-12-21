@@ -30,7 +30,8 @@ block content
               | : #{user.email}
               br
               strong hash
-              | : #{user.password}
+              | :
+              span(class="wrap-block") #{user.password}
 
             a(href="/unlink/local", class="btn btn-default") Unlink
           else
@@ -45,20 +46,20 @@ block content
             | Facebook
 
           // check if the user has this token (is the user authenticated with this social account)
-          if user.facebook_token
+          if user.facebook
             p
               strong id
-              | : div #{user.facebook_id}
+              | : #{user.facebook.id}
               br
               strong token
-              | : div #{user.facebook_token}
+              | :
+              span(class="wrap-block") #{user.facebook.token}
               br
               strong email
-              | : div #{user.facebook_email}
+              | : #{user.facebook.email}
               br
               strong name
-              | : div #{user.facebook_name}
-              br
+              | : #{user.facebook.name}
 
             a(href="/unlink/facebook", class="btn btn-primary") Unlink
           else
@@ -74,10 +75,10 @@ block content
             |
             | Twitter
 
-          if user.twitter_token
+          if user.twitter
             p
               strong id
-              | : div #{user.twitter_id}
+              | : #{user.twitter_id}
               br
               strong token
               | : #{user.twitter_token}
@@ -100,7 +101,7 @@ block content
             |
             | Google+
 
-          if user.google_token
+          if user.google
             p
               strong id
               | : #{user.google_id}
