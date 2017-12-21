@@ -34,12 +34,7 @@ export const Facebook = db.define('facebook', {
   tableName: 'facebook',
 })
 
-async function syncFacebook() {
+export const syncFacebook = async () => {
   await Facebook.sync()
   console.log('table facebook is in sync')
 }
-
-syncFacebook().catch(error => {
-  console.error(`Failed to create facebook table: ${error.stack}`)
-  process.exit(1)
-})

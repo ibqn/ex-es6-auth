@@ -1,9 +1,12 @@
 import { Router } from 'express'
 import { asyncMiddleware } from '../tools'
 import passport from 'passport'
+import auth from './auth'
 
 
 const router = Router()
+
+router.use('/auth', auth)
 
 // GET home page.
 router.get('/', asyncMiddleware(async(req, res, /* next */) =>

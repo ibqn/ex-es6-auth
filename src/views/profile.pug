@@ -29,9 +29,9 @@ block content
               strong email
               | : #{user.email}
               br
-              strong hash
-              | :
-              span(class="wrap-block") #{user.password}
+              span(class="wrap-block")
+                strong hash
+                | : #{user.password}
 
             a(href="/unlink/local", class="btn btn-default") Unlink
           else
@@ -51,9 +51,9 @@ block content
               strong id
               | : #{user.facebook.id}
               br
-              strong token
-              | :
-              span(class="wrap-block") #{user.facebook.token}
+              span(class="wrap-block")
+                strong token
+                | : #{user.facebook.token}
               br
               strong email
               | : #{user.facebook.email}

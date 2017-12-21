@@ -6,11 +6,14 @@ import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import passport from 'passport'
 import { initLocalStrategy } from './strategy/local'
+import { initFacebookStrategy } from './strategy/facebook'
 import session from 'express-session'
 import flash from 'connect-flash'
 import bodyParser from 'body-parser'
 import sassMiddleware from 'node-sass-middleware'
 import { initDb } from './db'
+import { syncUser } from './models/user'
+import { syncFacebook } from './models/facebook'
 import dotenv from 'dotenv'
 
 import index from './routes/index'
@@ -53,9 +56,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(passport.initialize())
 app.use(passport.session())
 initLocalStrategy(passport)
+initFacebookStrategy(passport)
 
 initDb().catch(error => {
   console.error(`Database connection error: ${error.stack}`)
+  process.exit(1)
+})
+syncFacebook().catch(error => {
+  console.error(`Failed to create facebook table: ${error.stack}`)
+  process.exit(1)
+})
+syncUser().catch(error => {
+  console.error(`Failed to create user table: ${error.stack}`)
   process.exit(1)
 })
 

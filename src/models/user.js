@@ -1,14 +1,16 @@
 import Sequelize from 'sequelize'
 import { sequelize as db } from '../db'
 import crypto from 'crypto'
+import { Facebook } from './facebook'
 
 
 const keyLength = 32
 const iterations = 100000
 const digest = 'sha512'
+const encoding = 'base64'
 const generateSalt = () => {
   const salt = crypto.randomBytes(keyLength)
-  return salt.toString('hex')
+  return salt.toString(encoding)
 }
 const generateHash = (salt, password) => {
   const executor = (resolve, reject) => {
@@ -17,7 +19,7 @@ const generateHash = (salt, password) => {
         return reject(error)
       }
 
-      resolve(hash.toString('hex'))
+      resolve(hash.toString(encoding))
     }
 
     crypto.pbkdf2(password, salt, iterations, keyLength, digest, callback)
@@ -36,11 +38,13 @@ export const User = db.define('user', {
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: null,
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: null,
   },
   salt: {
     type: Sequelize.STRING,
@@ -70,12 +74,8 @@ User.prototype.validPassword = async function (password) {
   return this.password === hash
 }
 
-async function syncUser() {
+export const syncUser = async () => {
+  User.belongsTo(Facebook)
   await User.sync()
   console.log('table user is in sync')
 }
-
-syncUser().catch(error => {
-  console.error(`Failed to create user table: ${error.stack}`)
-  process.exit(1)
-})
