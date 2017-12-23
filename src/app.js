@@ -14,6 +14,7 @@ import sassMiddleware from 'node-sass-middleware'
 import { initDb } from './db'
 import { syncUser } from './models/user'
 import { syncFacebook } from './models/facebook'
+import { syncGoogle } from './models/google'
 import dotenv from 'dotenv'
 
 import index from './routes/index'
@@ -58,16 +59,15 @@ app.use(passport.session())
 initLocalStrategy(passport)
 initFacebookStrategy(passport)
 
-initDb().catch(error => {
-  console.error(`Database connection error: ${error.stack}`)
-  process.exit(1)
-})
-syncFacebook().catch(error => {
-  console.error(`Failed to create facebook table: ${error.stack}`)
-  process.exit(1)
-})
-syncUser().catch(error => {
-  console.error(`Failed to create user table: ${error.stack}`)
+const dbSetup = async () => {
+  await initDb()
+  await syncFacebook()
+  await syncGoogle()
+  await syncUser()
+}
+
+dbSetup().catch(error => {
+  console.error(`Failed to complete DB setup: ${error.stack}`)
   process.exit(1)
 })
 

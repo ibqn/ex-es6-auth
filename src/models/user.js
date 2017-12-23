@@ -18,13 +18,10 @@ const generateHash = (salt, password) => {
       if (error) {
         return reject(error)
       }
-
       resolve(hash.toString(encoding))
     }
-
     crypto.pbkdf2(password, salt, iterations, keyLength, digest, callback)
   }
-
   return new Promise(executor)
 }
 
