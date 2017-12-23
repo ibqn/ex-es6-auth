@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import passport from 'passport'
 import { initLocalStrategy } from './strategy/local'
 import { initFacebookStrategy } from './strategy/facebook'
+import { initGoogleStrategy } from './strategy/google'
 import session from 'express-session'
 import flash from 'connect-flash'
 import bodyParser from 'body-parser'
@@ -58,6 +59,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 initLocalStrategy(passport)
 initFacebookStrategy(passport)
+initGoogleStrategy(passport)
 
 const dbSetup = async () => {
   await initDb()

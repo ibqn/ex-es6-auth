@@ -2,6 +2,7 @@ import Sequelize from 'sequelize'
 import { sequelize as db } from '../db'
 import crypto from 'crypto'
 import { Facebook } from './facebook'
+import { Google } from './google'
 
 
 const keyLength = 32
@@ -73,6 +74,7 @@ User.prototype.validPassword = async function (password) {
 
 export const syncUser = async () => {
   User.belongsTo(Facebook)
+  User.belongsTo(Google)
   await User.sync()
   console.log('table user is in sync')
 }

@@ -104,15 +104,17 @@ block content
           if user.google
             p
               strong id
-              | : #{user.google_id}
+              | : #{user.google.id}
               br
-              strong token #{user.google_token}
+              span(class="wrap-block")
+                strong token
+                | : #{user.google.token}
               br
               strong email
-              | : #{user.google_email}
+              | : #{user.google.email}
               br
               strong name
-              | : #{user.google_name}
+              | : #{user.google.name}
 
             a(href="/unlink/google", class="btn btn-danger") Unlink
           else
