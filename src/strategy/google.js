@@ -13,12 +13,12 @@ export const initGoogleStrategy = (passport) => {
   },
   async (req, token, refreshToken, profile, done) => {
     try {
-      let googleItem = await Google.findOne({
+      let google = await Google.findOne({
         where: { 'id': profile.id },
         attributes: [ 'id', 'token', 'name', 'email', ]
       })
-      if (googleItem === null) {
-        googleItem = await Google.build({
+      if (google === null) {
+        google = await Google.create({
           id: profile.id,
           token,
           name: profile.displayName,
@@ -26,7 +26,6 @@ export const initGoogleStrategy = (passport) => {
             profile.emails && profile.emails[0].value || ''
           ).toLowerCase()
         })
-        await googleItem.save()
       }
       let user = await User.findOne({
         where: { 'google_id': profile.id },
@@ -34,7 +33,6 @@ export const initGoogleStrategy = (passport) => {
         attributes: [ 'id', 'email', 'password', 'salt', ]
       })
       if (user === null && !req.user) {
-        // user = await User.build({ google }, { include: [ Google ] })
         user = await User.create({}, { include: [ Google ] })
       }
       if (req.user) {
@@ -43,7 +41,7 @@ export const initGoogleStrategy = (passport) => {
         }
         user = req.user
       }
-      await user.setGoogle(googleItem)
+      await user.setGoogle(google)
       await user.save()
       done(null, user)
     } catch(error) {

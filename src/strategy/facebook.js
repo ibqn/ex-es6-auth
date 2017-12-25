@@ -14,31 +14,36 @@ export const initFacebookStrategy = (passport) => {
   },
   async (req, token, refreshToken, profile, done) => {
     try {
+      let facebook = await Facebook.findOne({
+        where: { 'id': profile.id },
+        attributes: [ 'id', 'token', 'name', 'email', ]
+      })
+      if (facebook === null) {
+        facebook = await Facebook.create({
+          id: profile.id,
+          token,
+          name: `${profile.name.givenName} ${profile.name.familyName}`,
+          email: (
+            profile.emails && profile.emails[0].value || ''
+          ).toLowerCase()
+        })
+      }
       let user = await User.findOne({
         where: { 'facebook_id': profile.id },
         include: [ Facebook ],
         attributes: [ 'id', 'email', 'password', 'salt', ]
       })
-
-      if(user === null) {
-        console.log(JSON.stringify(profile))
-        console.log('build new one')
-        console.log(`emails ${profile.email}`)
-        console.log(`name ${profile.name}`)
-        user = await User.build({
-          facebook: {
-            id: profile.id,
-            token,
-            name: `${profile.name.givenName} ${profile.name.familyName}`,
-            email: (profile.emails && profile.emails[0].value || '').toLowerCase()
-          }
-        },
-        {
-          include: [ Facebook ]
-        })
-        await user.save()
+      if (user === null && !req.user) {
+        user = await User.create({}, { include: [ Facebook ] })
       }
-      console.log(`user id ${user.id}`)
+      if (req.user) {
+        if (user) {
+          await user.destroy()
+        }
+        user = req.user
+      }
+      await user.setFacebook(facebook)
+      await user.save()
       done(null, user)
     } catch(error) {
       done(error)
