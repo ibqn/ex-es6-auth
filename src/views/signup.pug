@@ -1,5 +1,44 @@
 extends layout
 
+block script
+  script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js')
+  script.
+    $(function() {
+      $('form').validate({
+        errorClass: 'alert alert-danger',
+        errorElement: 'div',
+        rules: {
+          email: {
+            required: true,
+            email: true
+          },
+          password: {
+            required: true,
+            minlength: 5
+          },
+          confirm_password: {
+            minlength: 5,
+            equalTo : '#password'
+          },
+        },
+        messages: {
+          password: {
+            required: "Please provide a password.",
+            minlength: "Your password must be at least 5 characters long."
+          },
+          email: "Please enter a valid email address",
+          confirm_password: {
+            required: "Please confim your password.",
+            minlength: "Your password must be at least 5 characters long."
+          },
+        },
+        submitHandler: function(form) {
+          form.submit();
+        }
+      });
+    });
+
+
 block content
   div.container
     div(class="col-sm-6 col-sm-offset-3")
@@ -20,7 +59,11 @@ block content
 
         div(class="form-group")
           label Password
-          input(type="password", class="form-control", name="password")
+          input(type="password", class="form-control", name="password", id="password")
+
+        div(class="form-group")
+          label Confirm password
+          input(type="password", class="form-control", name="confirm_password")
 
         button(type="submit", class="btn btn-warning btn-lg") Signup
 
