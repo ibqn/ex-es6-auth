@@ -8,7 +8,7 @@ import link from './link'
 const router = Router()
 
 router.use('/auth', auth)
-router.use('/link', auth)
+router.use('/link', link)
 
 // GET home page.
 router.get('/', asyncMiddleware(async(req, res, /* next */) =>

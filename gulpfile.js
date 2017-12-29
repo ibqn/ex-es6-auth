@@ -32,7 +32,7 @@ gulp.task('nodemon', ['compile', 'copy'], function (cb) {
     },
     ignore: [
       'gulpfile.js',
-      'node_modules/'
+      './node_modules'
     ]
   })
   return stream
