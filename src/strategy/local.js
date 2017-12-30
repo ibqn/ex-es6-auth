@@ -2,6 +2,7 @@ import LocalStrategy from 'passport-local'
 import { User } from '../models/user'
 import { Facebook } from '../models/facebook'
 import { Google } from '../models/google'
+import { Twitter } from '../models/twitter'
 
 
 export const initLocalStrategy = (passport) => {
@@ -13,7 +14,7 @@ export const initLocalStrategy = (passport) => {
     try {
       const user = await User.findOne({
         where: { id },
-        include: [ Facebook, Google ],
+        include: [ Facebook, Google, Twitter, ],
         attributes: [ 'id', 'email', 'password' ]
       })
       done(null, user)

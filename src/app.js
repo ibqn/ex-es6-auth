@@ -8,6 +8,7 @@ import passport from 'passport'
 import { initLocalStrategy } from './strategy/local'
 import { initFacebookStrategy } from './strategy/facebook'
 import { initGoogleStrategy } from './strategy/google'
+import { initTwitterStrategy } from './strategy/twitter'
 import session from 'express-session'
 import flash from 'connect-flash'
 import bodyParser from 'body-parser'
@@ -16,6 +17,7 @@ import { initDb } from './db'
 import { syncUser } from './models/user'
 import { syncFacebook } from './models/facebook'
 import { syncGoogle } from './models/google'
+import { syncTwitter } from './models/twitter'
 import dotenv from 'dotenv'
 
 import index from './routes/index'
@@ -60,11 +62,13 @@ app.use(passport.session())
 initLocalStrategy(passport)
 initFacebookStrategy(passport)
 initGoogleStrategy(passport)
+initTwitterStrategy(passport)
 
 const dbSetup = async () => {
   await initDb()
   await syncFacebook()
   await syncGoogle()
+  await syncTwitter()
   await syncUser()
 }
 

@@ -5,5 +5,6 @@
   "sessionSecret": "iQ1+qveSfQc9NzIdJSy7r1SIpmqipkvtn1TIU26q6/g",
 
   "facebookCallbackURL": "http://localhost:8000/auth/facebook/callback",
-  "googleCallbackURL": "http://localhost:8000/auth/google/callback"
+  "googleCallbackURL": "http://localhost:8000/auth/google/callback",
+  "twitterCallbackURL": "http://localhost:8000/auth/twitter/callback"
 }

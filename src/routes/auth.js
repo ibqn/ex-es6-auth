@@ -20,4 +20,12 @@ router.get('/google/callback',
   passport.authenticate('google', { successRedirect: '/profile', failureRedirect: '/' })
 )
 
+router.get('/twitter',
+  passport.authenticate('twitter', { scope: [ 'email' ] })
+)
+
+router.get('/twitter/callback',
+  passport.authenticate('twitter', { successRedirect: '/profile', failureRedirect: '/' })
+)
+
 export default router

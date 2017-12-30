@@ -88,20 +88,20 @@ block content
           if user.twitter
             p
               strong id
-              | : #{user.twitter_id}
+              | : #{user.twitter.id}
               br
               strong token
-              | : #{user.twitter_token}
+              | : #{user.twitter.token}
               br
               strong display name
-              | : #{user.twitter_displayName}
+              | : #{user.twitter.name}
               br
               strong username
-              | : #{user.twitter_username}
+              | : #{user.twitter.username}
 
             a(href="/unlink/twitter", class="btn btn-info") Unlink
           else
-            a(href="/connect/twitter", class="btn btn-info") Connect Twitter
+            a(href="/link/twitter", class="btn btn-info") Connect Twitter
 
       // Google information
       div(class="col-sm-6")
