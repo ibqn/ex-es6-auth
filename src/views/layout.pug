@@ -7,14 +7,7 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
 
     script(src='//code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=', crossorigin='anonymous')
-    script.
-      $(window).on('load', function(e) {
-        if (window.location.hash === '#_=_') {
-          window.location.hash = ''; // for older browsers, leaves a # behind
-          history.pushState('', document.title, window.location.pathname); // nice and clean
-          e.preventDefault(); // no page reload
-        }
-      })
+
     block script
     body
       block content
